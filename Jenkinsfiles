@@ -1,14 +1,9 @@
 pipeline {
     agent any
     stages {
-        stage('Build') {
+        stage('Date') {
             steps {
-                sh 'make package'
-            }
-        }
-        stage('Test') {
-            steps {
-                sh 'make check'
+                sh 'date'
             }
         }
         stage('Deploy') {

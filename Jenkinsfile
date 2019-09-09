@@ -1,16 +1,18 @@
 pipeline {
-    agent any
+    agent { label 'master' }
+    environment {
+        GIT_TAG = sh(returnStdout: true, script: 'git describe --always').trim()
+    }
     stages {
-        stage('Date') {
-            steps {
-                sh 'date'
+        stage("Testing") {
+            when {
+                buildingTag()
             }
-        }
-        stage('Deploy') {
-            when { tag "RC-*" }
+            environment {
+                ENVIRONMENT = 'staging'
+            }
             steps {
-                echo 'Deploying only because this commit is tagged...'
-                cat 'versiku'
+                sh('cat versiku')
             }
         }
     }
